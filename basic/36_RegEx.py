@@ -1,60 +1,145 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# # Python 正则表达 RegEx
+
+# ## 导入模块
+
+# In[ ]:
+
+
 import re
+
+
+# ## 简单 Python 匹配
+
+# In[2]:
+
 
 # matching string
 pattern1 = "cat"
 pattern2 = "bird"
 string = "dog runs to cat"
-print(pattern1 in string)    # True
-print(pattern2 in string)    # False
+print(pattern1 in string)    
+print(pattern2 in string)    
+
+
+# ## 用正则寻找配对
+
+# In[3]:
 
 
 # regular expression
 pattern1 = "cat"
 pattern2 = "bird"
 string = "dog runs to cat"
-print(re.search(pattern1, string))  # <_sre.SRE_Match object; span=(12, 15), match='cat'>
-print(re.search(pattern2, string))  # None
+print(re.search(pattern1, string))  
+print(re.search(pattern2, string)) 
+
+
+# ## 匹配多种可能 使用 []
+
+# In[4]:
 
 
 # multiple patterns ("run" or "ran")
-ptn = r"r[au]n"       # start with "r" means raw string
-print(re.search(ptn, "dog runs to cat"))    # <_sre.SRE_Match object; span=(4, 7), match='run'>
+ptn = r"r[au]n"       
+print(re.search(ptn, "dog runs to cat"))    
+
+
+# ## 匹配更多种可能
+
+# In[6]:
 
 
 # continue
-print(re.search(r"r[A-Z]n", "dog runs to cat"))     # None
-print(re.search(r"r[a-z]n", "dog runs to cat"))     # <_sre.SRE_Match object; span=(4, 7), match='run'>
-print(re.search(r"r[0-9]n", "dog r2ns to cat"))     # <_sre.SRE_Match object; span=(4, 7), match='r2n'>
-print(re.search(r"r[0-9a-z]n", "dog runs to cat"))  # <_sre.SRE_Match object; span=(4, 7), match='run'>
+print(re.search(r"r[A-Z]n", "dog runs to cat"))     
+print(re.search(r"r[a-z]n", "dog runs to cat"))     
+print(re.search(r"r[0-9]n", "dog r2ns to cat"))     
+print(re.search(r"r[0-9a-z]n", "dog runs to cat"))  
+
+
+# ## 特殊种类匹配
+
+# ### 数字
+
+# In[7]:
 
 
 # \d : decimal digit
-print(re.search(r"r\dn", "run r4n"))                # <_sre.SRE_Match object; span=(4, 7), match='r4n'>
+print(re.search(r"r\dn", "run r4n"))                
 # \D : any non-decimal digit
-print(re.search(r"r\Dn", "run r4n"))                # <_sre.SRE_Match object; span=(0, 3), match='run'>
+print(re.search(r"r\Dn", "run r4n"))                
+
+
+# ### 空白
+
+# In[8]:
+
+
 # \s : any white space [\t\n\r\f\v]
-print(re.search(r"r\sn", "r\nn r4n"))               # <_sre.SRE_Match object; span=(0, 3), match='r\nn'>
+print(re.search(r"r\sn", "r\nn r4n"))               
 # \S : opposite to \s, any non-white space
-print(re.search(r"r\Sn", "r\nn r4n"))               # <_sre.SRE_Match object; span=(4, 7), match='r4n'>
+print(re.search(r"r\Sn", "r\nn r4n"))               
+
+
+# ### 所有字母数字和"_"
+
+# In[9]:
+
+
 # \w : [a-zA-Z0-9_]
-print(re.search(r"r\wn", "r\nn r4n"))               # <_sre.SRE_Match object; span=(4, 7), match='r4n'>
+print(re.search(r"r\wn", "r\nn r4n"))               
 # \W : opposite to \w
-print(re.search(r"r\Wn", "r\nn r4n"))               # <_sre.SRE_Match object; span=(0, 3), match='r\nn'>
+print(re.search(r"r\Wn", "r\nn r4n"))               
+
+
+# ### 空白字符
+
+# In[10]:
+
+
 # \b : empty string (only at the start or end of the word)
-print(re.search(r"\bruns\b", "dog runs to cat"))    # <_sre.SRE_Match object; span=(4, 8), match='runs'>
+print(re.search(r"\bruns\b", "dog runs to cat"))    
 # \B : empty string (but not at the start or end of a word)
-print(re.search(r"\B runs \B", "dog   runs  to cat"))  # <_sre.SRE_Match object; span=(8, 14), match=' runs '>
+print(re.search(r"\B runs \B", "dog   runs  to cat"))  
+
+
+# ### 特殊字符 任意字符
+
+# In[11]:
+
+
 # \\ : match \
-print(re.search(r"runs\\", "runs\ to me"))          # <_sre.SRE_Match object; span=(0, 5), match='runs\\'>
+print(re.search(r"runs\\", "runs\ to me"))          
 # . : match anything (except \n)
-print(re.search(r"r.n", "r[ns to me"))              # <_sre.SRE_Match object; span=(0, 3), match='r[n'>
+print(re.search(r"r.n", "r[ns to me"))              
+
+
+# ### 句尾句首
+
+# In[12]:
+
+
 # ^ : match line beginning
-print(re.search(r"^dog", "dog runs to cat"))        # <_sre.SRE_Match object; span=(0, 3), match='dog'>
+print(re.search(r"^dog", "dog runs to cat"))        
 # $ : match line ending
-print(re.search(r"cat$", "dog runs to cat"))        # <_sre.SRE_Match object; span=(12, 15), match='cat'>
+print(re.search(r"cat$", "dog runs to cat"))       
+
+
+# ### 是否
+
+# In[13]:
+
+
 # ? : may or may not occur
-print(re.search(r"Mon(day)?", "Monday"))            # <_sre.SRE_Match object; span=(0, 6), match='Monday'>
-print(re.search(r"Mon(day)?", "Mon"))               # <_sre.SRE_Match object; span=(0, 3), match='Mon'>
+print(re.search(r"Mon(day)?", "Monday"))            
+print(re.search(r"Mon(day)?", "Mon"))               
+
+
+# ## 多行匹配
+
+# In[14]:
 
 
 # multi-line
@@ -62,49 +147,100 @@ string = """
 dog runs to cat.
 I run to dog.
 """
-print(re.search(r"^I", string))                     # None
-print(re.search(r"^I", string, flags=re.M))         # <_sre.SRE_Match object; span=(18, 19), match='I'>
+print(re.search(r"^I", string))                     
+print(re.search(r"^I", string, flags=re.M)) 
+
+
+# ## 0或多次
+
+# In[15]:
 
 
 # * : occur 0 or more times
-print(re.search(r"ab*", "a"))                       # <_sre.SRE_Match object; span=(0, 1), match='a'>
-print(re.search(r"ab*", "abbbbb"))                  # <_sre.SRE_Match object; span=(0, 6), match='abbbbb'>
+print(re.search(r"ab*", "a"))                       
+print(re.search(r"ab*", "abbbbb"))                  
+
+
+# ## 1或多次
+
+# In[16]:
+
 
 # + : occur 1 or more times
-print(re.search(r"ab+", "a"))                       # None
-print(re.search(r"ab+", "abbbbb"))                  # <_sre.SRE_Match object; span=(0, 6), match='abbbbb'>
+print(re.search(r"ab+", "a"))                       
+print(re.search(r"ab+", "abbbbb"))                  
+
+
+# ## 可选次数
+
+# In[17]:
+
 
 # {n, m} : occur n to m times
-print(re.search(r"ab{2,10}", "a"))                  # None
-print(re.search(r"ab{2,10}", "abbbbb"))             # <_sre.SRE_Match object; span=(0, 6), match='abbbbb'>
+print(re.search(r"ab{2,10}", "a"))                  
+print(re.search(r"ab{2,10}", "abbbbb"))             
+
+
+# ## group 组
+
+# In[18]:
 
 
 # group
 match = re.search(r"(\d+), Date: (.+)", "ID: 021523, Date: Feb/12/2017")
-print(match.group())                                # 021523, Date: Feb/12/2017
-print(match.group(1))                               # 021523
-print(match.group(2))                               # Date: Feb/12/2017
+print(match.group())                                
+print(match.group(1))                               
+print(match.group(2))                               
+
+
+# In[19]:
+
 
 match = re.search(r"(?P<id>\d+), Date: (?P<date>.+)", "ID: 021523, Date: Feb/12/2017")
-print(match.group('id'))                            # 021523
-print(match.group('date'))                          # Date: Feb/12/2017
+print(match.group('id'))                            
+print(match.group('date'))                          
+
+
+# ## 寻找所有匹配 
+
+# In[20]:
+
 
 # findall
-print(re.findall(r"r[ua]n", "run ran ren"))         # ['run', 'ran']
+print(re.findall(r"r[ua]n", "run ran ren"))         
+
+
+# In[21]:
+
 
 # | : or
-print(re.findall(r"(run|ran)", "run ran ren"))      # ['run', 'ran']
+print(re.findall(r"(run|ran)", "run ran ren"))      
+
+
+# ## 替换
+
+# In[22]:
+
 
 # re.sub() replace
-print(re.sub(r"r[au]ns", "catches", "dog runs to cat"))     # dog catches to cat
+print(re.sub(r"r[au]ns", "catches", "dog runs to cat"))     
+
+
+# ## 分裂
+
+# In[23]:
+
 
 # re.split()
-print(re.split(r"[,;\.]", "a;b,c.d;e"))             # ['a', 'b', 'c', 'd', 'e']
+print(re.split(r"[,;\.]", "a;b,c.d;e"))             
+
+
+# ## compile
+
+# In[24]:
 
 
 # compile
 compiled_re = re.compile(r"r[ua]n")
-print(compiled_re.search("dog ran to cat"))     # <_sre.SRE_Match object; span=(4, 7), match='ran'>
-
-
+print(compiled_re.search("dog ran to cat"))     
 
